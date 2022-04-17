@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Provisioning of IAM Users with appropriate permission
+
+
+Resources:
+
+  IAMGroupA:
+    Type: AWS::IAM::Group
+    Properties: 
+      GroupName: Adminis
+      ManagedPolicyArns: 
+        - String
+      Path: String
+      Policies: 
+        - Policy
+
+
+  IAMUserA:
+    Type: AWS::IAM::User
+    Properties: 
+      LoginProfile: 
+        Password: Project#manager
+        PasswordResetRequired: True
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AdministratorAccess
+      UserName: Project_Manager
+
+
+  IAMUserB:
+    Type: AWS::IAM::User
+    Properties: 
+      LoginProfile: 
+        Password: Developer#123
+        PasswordResetRequired: True
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonEC2FullAccess
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+      UserName: Developer
+
+  IAMUserC:
+    Type: AWS::IAM::User
+    Properties: 
+      LoginProfile: 
+        Password: Intern#123
+        PasswordResetRequired: True
+      ManagedPolicyArns: 
+        - arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+        - arn:aws:iam::aws:policy/IAMUserChangePassword
+      UserName: Intern
