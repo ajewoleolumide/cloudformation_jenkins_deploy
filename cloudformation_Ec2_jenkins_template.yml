@@ -115,9 +115,18 @@ Resources:
       GatewayId: !Ref InternetGateWay
       RouteTableId: !Ref PublicRouteTable
 
+  EIPAddress:
+    Type: AWS::EC2::EIP
+
+  EIPAssoc:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref 'EC2'
+      EIP: !Ref 'EIPAddress'
+
   
 
-  JenkinsInstanceA:
+  EC2:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: eu-west-2b
@@ -136,7 +145,7 @@ Resources:
       SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
-          Value: JenkinsInstance01
+          Value: EC2-JenkinsDeploy
       UserData: 
         Fn::Base64: 
           !Sub |
@@ -154,37 +163,7 @@ Resources:
             sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 
-  WebInstanceB:
-    Type: AWS::EC2::Instance
-    Properties:
-      AvailabilityZone: eu-west-2b
-      BlockDeviceMappings:
-        - DeviceName: /dev/xvda
-          Ebs:
-            VolumeType: gp3
-            Iops: 3000
-            DeleteOnTermination: true
-            VolumeSize: 8
-      ImageId: ami-03e88be9ecff64781
-      InstanceType: t2.micro
-      KeyName: cba-web-key
-      SecurityGroupIds:
-        - !Ref SecurityGroup
-      SubnetId: !Ref PrivateSubnet
-      Tags:
-        - Key: Name
-          Value: ProjectInstance02
-
   
-    
-  
-    
-  
-
-      
-
-
-
 
 
 
