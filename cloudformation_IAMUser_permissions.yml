@@ -1,7 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Provisioning of IAM Users with appropriate permission
 
-
 Resources:
 
   IAMGroupA:

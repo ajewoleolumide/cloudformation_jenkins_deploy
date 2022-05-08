@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Provisioning of 2 EC2 Instances within a CustomNetwork with jenkins 
-deployment via Cloudformation
+Description: Provisioning of EC2 Instances within a CustomNetwork with jenkins deployment via Cloudformation
 
 Resources:
+
   VPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.5.0.0/16
+      CidrBlock: 10.0.0.0/16
       EnableDnsHostnames: true
       EnableDnsSupport: true
       InstanceTenancy: default
@@ -18,7 +18,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: eu-west-2b
-      CidrBlock: 10.5.1.0/24
+      CidrBlock: 10.0.1.0/24
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -29,7 +29,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: eu-west-2b
-      CidrBlock: 10.5.2.0/24
+      CidrBlock: 10.0.2.0/24
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
@@ -115,18 +115,7 @@ Resources:
       GatewayId: !Ref InternetGateWay
       RouteTableId: !Ref PublicRouteTable
 
-  EIPAddress:
-    Type: AWS::EC2::EIP
-
-  EIPAssoc:
-    Type: AWS::EC2::EIPAssociation
-    Properties:
-      InstanceId: !Ref 'EC2'
-      EIP: !Ref 'EIPAddress'
-
-  
-
-  EC2:
+  EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: eu-west-2b
@@ -145,7 +134,7 @@ Resources:
       SubnetId: !Ref PublicSubnet
       Tags:
         - Key: Name
-          Value: EC2-JenkinsDeploy
+          Value: MyJenkinsInstance
       UserData: 
         Fn::Base64: 
           !Sub |
@@ -161,6 +150,17 @@ Resources:
             sudo systemctl status jenkins
             sudo systemctl enable jenkins
             sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+  EIPAddress:
+    Type: AWS::EC2::EIP
+
+  EIPAssoc:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref EC2Instance
+      EIP: !Ref EIPAddress
+
+  
 
 
   
