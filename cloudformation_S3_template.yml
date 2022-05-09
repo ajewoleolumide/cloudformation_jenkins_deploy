@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Provision of S3 bucket with cloudformation
+Description: Provision of S3 bucket with cloudformations
 
 Resources:
   S3Bucket:
