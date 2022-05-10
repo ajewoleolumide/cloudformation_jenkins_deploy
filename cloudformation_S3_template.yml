@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Provision of S3 bucket with cloudformation to test fro jenkins build with EC2
+Description: Provision of S3 bucket with cloudformation to test for jenkins build with EC2
 
 Resources:
   S3Bucket:
